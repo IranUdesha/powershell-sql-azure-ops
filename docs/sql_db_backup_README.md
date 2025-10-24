@@ -43,7 +43,7 @@ The `sql_db_backup.ps1` script performs automated SQL Server database backups di
 
 ### Basic Usage
 ```powershell
-.\sql_db_backup.ps1 -SourceServer "localhost" -DatabaseName "MyDatabase" -SqlUsername "sa" -SqlPassword "SecurePassword123" -StorageAccountName "mystorageaccount" -StorageAccountKey "storagekey==" -ContainerName "backups" -backup_name "20231024_daily"
+.\sql_db_backup.ps1 -SourceServer "localhost" -DatabaseName "MyDatabase" -SqlUsername "sa" -SqlPassword "YourSecurePassword" -StorageAccountName "mystorageaccount" -StorageAccountKey "your-storage-account-key" -ContainerName "backups" -backup_name "20241024_daily"
 ```
 
 ### Azure DevOps Pipeline Usage

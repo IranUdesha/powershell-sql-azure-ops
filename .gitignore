@@ -1,0 +1,48 @@
+# PowerShell and Windows
+*.ps1xml
+*.psd1.backup
+*.log
+*.tmp
+*.temp
+
+# Sensitive files - never commit these
+*.secret
+*.key
+*.credentials
+config.json
+appsettings.json
+*.env
+.env*
+
+# IDE and Editor files
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+*~
+
+# Build artifacts
+bin/
+obj/
+*.dll
+*.exe
+
+# OS files
+Thumbs.db
+.DS_Store
+*.bak
+
+# Temporary PowerShell files
+*.ps1~
+*.psm1~
+
+# Azure and SQL specific sensitive files
+connectionstrings.json
+secrets.json
+azure-credentials.json
+sql-passwords.txt
+
+# Test files that might contain sensitive data
+test-config.ps1
+local-test.ps1
+*-local.*
