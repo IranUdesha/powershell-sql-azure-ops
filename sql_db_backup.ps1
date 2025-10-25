@@ -1,29 +1,36 @@
 # This script performs a backup directly to Azure Storage
 
 param(
-    # [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$SourceServer, # SQL Server instance name ex- localhost
     
-    # [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$DatabaseName,
-    
-    # [Parameter(Mandatory=$true)]
+
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$SqlUsername, # SA username or SQL Auth user with necessary permissions
     
-    # [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$SqlPassword, # Corresponding password
     
-    # [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$StorageAccountName,
     
-    # [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$StorageAccountKey,
     
-    # [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$ContainerName,
 
-    # [Parameter(Mandatory=$true)]
-    [string]$backup_name
+    [Parameter(Mandatory=$true)]
+    [string]$backup_name = $DatabaseName
 )
 
 
@@ -72,7 +79,7 @@ New-SqlCredential -ConnectionString $conn -StorageAccountName $StorageAccountNam
 
 
 # Generate single backup URL (Azure Blob Storage doesn't support striped backups)
-$backupUrl = "https://$StorageAccountName.blob.core.windows.net/$ContainerName/$DatabaseName/${DatabaseName}_${backup_name}.bak"
+$backupUrl = "https://$StorageAccountName.blob.core.windows.net/$ContainerName/$DatabaseName/${backup_name}.bak"
 
 # Build backup command
 $backupQuery = "BACKUP DATABASE [$DatabaseName] TO URL = '$backupUrl'"
@@ -142,7 +149,7 @@ ORDER BY backup_start_date DESC
     # Output backup paths for pipeline (for next stage)
     $output = @{
         Success = $true
-        Backup_file_name = "$DatabaseName/${DatabaseName}_${backup_name}.bak"
+        Backup_file_name = "$DatabaseName/${backup_name}.bak"
         # BackupFolder = $backupFolder
         # BackupUrl = $backupUrl
         Duration = $duration
