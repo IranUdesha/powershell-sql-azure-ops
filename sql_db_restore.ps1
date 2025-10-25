@@ -19,6 +19,9 @@ param (
     [string]$blobName, # name of the backup file in the blob storage ex- PHR_PH_test_01/PHR_PH_test_01_2025_10_20_09_48_55.bak
 
     [Parameter(Mandatory=$true)]
+    [string]$source_DatabaseName, # Name of the source database from which the backup was taken
+
+    [Parameter(Mandatory=$true)]
     [string]$db_server, # SQL Server instance name ex- localhost
 
     [Parameter(Mandatory=$true)] 
@@ -99,7 +102,15 @@ if ($db_status -eq $true) {
 
 
 # Get logical file names
-$backupUrl = "$stg_url/$blobName"
+$backupUrl = "$stg_url/$source_DatabaseName/$blobName"
+
+# Check if the .bak extension is already present
+if ($blobName -notlike "*.bak") {
+    $backupUrl = "$stg_url/$source_DatabaseName/$blobName.bak"
+} else {
+    $backupUrl = "$stg_url/$source_DatabaseName/$blobName"
+}
+
 Write-Host "Fetching logical file names from backup: $backupUrl" -ForegroundColor Yellow
 # Write-Host "##[section]Fetching logical file names from backup"
 try {
